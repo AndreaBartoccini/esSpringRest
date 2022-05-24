@@ -196,5 +196,19 @@ public class LocalitaController {
 	}
 	
 	
+	@GetMapping("/findByTempBetween/{temp1}/{temp2}")
+	public ResponseEntity<List<Localita>> findByTempBetween(@PathVariable("temp1") Integer temperatura1, @PathVariable("temp2") Integer temperatura2) {
+		try {
+			List<Localita> listaLocalita = service.trovaPerTemperaturaMinore(temperatura1);
+			if (listaLocalita.size() <= 0) {
+				return new ResponseEntity<List<Localita>>(HttpStatus.NOT_FOUND);
+			}
+			return new ResponseEntity<List<Localita>>(listaLocalita, HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<List<Localita>>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
 	
 }
